@@ -1,0 +1,24 @@
+Install docker
+
+sudo docker pull osrg/ryu
+
+%create container
+sudo docker run -it -d -p 6653:6653 --name ryu3.15 osrg/ryu /bin/bash
+
+%Start and attach the container
+sudo docker start ryu3.15
+sudo docker attach ryu3.15
+
+
+%Inside the container 
+cd ~/ryu/ryu/app
+
+%run sample application
+
+ryu-manager simple_switch.py
+
+
+%export the docker 
+sudo docker export ryu3.15 > ryu.tar
+
+
