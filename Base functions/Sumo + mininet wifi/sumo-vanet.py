@@ -17,7 +17,7 @@ def topology():
 
     info("*** Creating nodes\n")
     cars = []
-    for id in range(0, 10):
+    for id in range(10, 20):
         cars.append(net.addCar('car%s' % (id+1), wlans=2))
 
     e1 = net.addAccessPoint('e1', ssid='vanet-ssid',
@@ -33,15 +33,14 @@ def topology():
     e6 = net.addAccessPoint('e6', ssid='vanet-ssid', 
                             mode='g', channel='11', position='2351.68,3083.40,0')
     
-    c1 = RemoteController('c', '130.235.202.50', 6653)
+    c1 = RemoteController('c', '130.235.202.50', 6633)
     net.addController(c1)
-    
 
     info("*** Setting bgscan\n")
     net.setBgscan(signal=-45, s_inverval=5, l_interval=10)
 
     info("*** Configuring Propagation Model\n")
-    net.setPropagationModel(model="logDistance", exp=2)
+    net.setPropagationModel(model="logDistance", exp=4.5)
 
     info("*** Configuring wifi nodes\n")
     net.configureWifiNodes()
@@ -56,9 +55,11 @@ def topology():
         net.addLink(car, intf=car.params['wlan'][1],
                     cls=mesh, ssid='mesh-ssid', channel=5)
 
-    net.useExternalProgram(program=sumo, config_file='map.sumocfg')
-  
+    net.useExternalProgram(program=sumo, port=8813,
+                           config_file='map.sumocfg')
+    
 
+    net.startMobility(time=0)
     info("*** Starting network\n")
     net.build()
     c1.start()
@@ -85,3 +86,6 @@ def topology():
 if __name__ == '__main__':
     setLogLevel('info')
     topology()
+
+
+
