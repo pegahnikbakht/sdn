@@ -14,23 +14,26 @@ else:
 import traci
 import traci.constants as tc
 
+ambulanceID = "ambulance"
+abulanestate=False
+targetID="4"
 
 clear = lambda: os.system('clear')
 
+###start ambulance dynamiclly after an accident occured
+def startambulance():
+  global abulanestate
+  if abulanestate :
+    return
+  else:
+    traci.route.add("trip", ["5672450#2", "156994961#1"])
+    traci.vehicle.add("ambulance", "trip", typeID="type1")
+    abulanestate=True
 
 
-ambulanceID = "9"
-
-targetID="4"
-
-traci.start(["sumo", "-c", "/usr/local/lib/python2.7/dist-packages/mininet_wifi-2.3-py2.7.egg/mn_wifi/sumo/data/map.sumocfg"])
+traci.start(["sumo-gui", "-c", "/usr/local/lib/python2.7/dist-packages/mininet_wifi-2.3-py2.7.egg/mn_wifi/sumo/data/map.sumocfg"])
 #traci.vehicle.subscribe(vehID, (tc.VAR_ROAD_ID, tc.VAR_LANEPOSITION))
 #print(traci.vehicle.getSubscriptionResults(vehID))
-
-#Route an ambulance to accident spot
-
-traci.route.add("trip", ["5672450#2", "156994961#1"])
-traci.vehicle.add("newVeh", "trip", typeID="type1")
 
 step=0
 while(True):
@@ -39,14 +42,24 @@ while(True):
   Vlist=traci.vehicle.getIDList()
   
   clear()
-  print(Vlist)
+  #print(Vlist)
+  if abulanestate :
+    print("Ambulance is on the way.")
+  else:
+    print("Everything is OK.")
   if targetID in Vlist:
+    traci.vehicle.setColor(targetID,(255,0,0))
     print("target :")
     print('\t speed: %.3f' % traci.vehicle.getSpeed(targetID))
     print('\t waiting %.3f: ' % traci.vehicle.getWaitingTime(targetID))
-    print('\t isAtContainerStop %s' % traci.vehicle.isAtContainerStop(targetID))
+    print('\t isStopped %s' % traci.vehicle.isStopped(targetID))
+    print('\t getStopState %s' % traci.vehicle.getStopState(targetID))
+    if ( traci.vehicle.getStopState(targetID)==1):
+      startambulance()
 
-  if targetID in Vlist:
+      
+
+  if ambulanceID in Vlist:
     print('ambulance :')
     print('\t speed: %.3f' % traci.vehicle.getSpeed(ambulanceID))
 
