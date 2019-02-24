@@ -1,6 +1,6 @@
 # SDN-based simulation of smart city
 
-#About the project
+## About the project
 
 This is a project for simulating a smart city based on SDN network. This project would be consists of three different use cases: 
 
@@ -12,7 +12,7 @@ In the simulations we have decided to choose mininet-wifi as the network simulat
 
 SDN controller is set up on a remote controller in a docker container and mininet wifi will connect to it remotely. 
 
-#Base Functions
+## Base Functions
 
 There are a number of base functions availbale for the smart city such as:
 - Creating a sample topology
