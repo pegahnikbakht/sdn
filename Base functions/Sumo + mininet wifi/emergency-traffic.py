@@ -37,6 +37,40 @@ FORM={
   'BOL' : '\033[1m',
 }
 
+#def add_emergency_vehicle(typeI):
+#    if typeI == "ambulance":
+#       traci.route.add("trip", ["5672450#2", "156994961#1"])
+#       traci.vehicle.add("ambulance", "trip", typeID="ambulance")
+#    elif typeI == "firetruck": 
+#       traci.route.add("trip", ["5672450#2", "156994961#1"])
+#       traci.vehicle.add("firetruck", "trip", typeID="firetruck")
+#    elif typeI == "police":
+#       traci.route.add("trip", ["5672450#2", "156994961#1"])
+#       traci.vehicle.add("police", "trip", typeID="police")
+
+
+class ambulance():
+    def set_vehicle(self):
+        traci.route.add("trip", ["5672450#2", "156994961#1"])
+        traci.vehicle.add("ambulance", "trip", typeID="ambulance")
+       
+class firetruck():
+    def set_vehicle(self):
+        traci.route.add("trip", ["5672450#2", "156994961#1"])
+        traci.vehicle.add("firetruck", "trip", typeID="firetruck")
+
+class police():
+    def set_vehicle():
+        traci.route.add("trip", ["5672450#2", "156994961#1"])
+        traci.vehicle.add("police", "trip", typeID="police")
+
+def emergency(obj):
+    
+      obj.set_vehicle()
+
+
+
+
 ###start ambulance
 def startambulance():
   global abulanestate
@@ -44,17 +78,43 @@ def startambulance():
     return
   else:
     AST=traci.simulation.getCurrentTime()
-    traci.route.add("trip", ["5672450#2", "156994961#1"])
-    traci.vehicle.add("ambulance", "trip", typeID="type1")
+    #traci.route.add("trip", ["5672450#2", "156994961#1"])
+    #traci.vehicle.add("ambulance", "trip", typeID="type1")
+    #add_emergency_vehicle("ambulance")
+    emergency(ambulance())
+    
+    
     abulanestate=True
 
-def checkambulancearrived():
+def check_ambulance_arrival_time():
   global ALP,TLP,TLI,ALI
   TLPI,ALPI=int(TLP),int(ALP)
   if TLI==ALI and abs(TLPI-ALPI)<30 :
     return True
   else:
     return False
+
+
+def print_target_info(targetID):
+    print("target :")
+    print('\t speed: %.3f' % traci.vehicle.getSpeed(targetID))
+    print('\t waiting %.3f: ' % traci.vehicle.getWaitingTime(targetID))
+    print('\t isStopped %s' % traci.vehicle.isStopped(targetID))
+    print('\t StopState %s' % traci.vehicle.getStopState(targetID))
+    print('\t Zoom %s' % traci.gui.getZoom( "View #0"))
+    print('\t Schema %s' % traci.gui.getSchema( "View #0"))
+    print('\t LaneID %s' % traci.vehicle.getLaneID( targetID))
+    print('\t Position '+str( traci.vehicle.getPosition( targetID)))
+    print('\t LanePosition '+str(traci.vehicle.getLanePosition( targetID )))
+
+
+def print_ambulance_info(ambulanceID):
+    print('\t speed: %.3f' % traci.vehicle.getSpeed(ambulanceID))
+    #print('\t Neighbors %s' % dir(traci.vehicle.getNeighbors(ambulanceID)))
+    print('\t LaneID %s' % traci.vehicle.getLaneID( ambulanceID)) 
+    print('\t Position '+str( traci.vehicle.getPosition( ambulanceID)) )
+    print('\t LanePosition '+str(traci.vehicle.getLanePosition( ambulanceID )))   
+
 
 
 traci.start(["sumo-gui", "-c", "/usr/local/lib/python2.7/dist-packages/mininet_wifi-2.3-py2.7.egg/mn_wifi/sumo/data/map.sumocfg"])
@@ -64,6 +124,7 @@ traci.start(["sumo-gui", "-c", "/usr/local/lib/python2.7/dist-packages/mininet_w
 step=0
 traci.gui.setSchema( "View #0","real world")
 traci.gui.setZoom("View #0", 4000)
+
 while(True):
   #print("step", step)
   traci.simulationStep()
@@ -80,20 +141,10 @@ while(True):
   print(traci.simulation.getCurrentTime())
 
 
-
   if targetID in Vlist:  
     traci.vehicle.setColor(targetID,(255,0,0))
-    print("target :")
-    print('\t speed: %.3f' % traci.vehicle.getSpeed(targetID))
-    print('\t waiting %.3f: ' % traci.vehicle.getWaitingTime(targetID))
-    print('\t isStopped %s' % traci.vehicle.isStopped(targetID))
-    print('\t StopState %s' % traci.vehicle.getStopState(targetID))
-    print('\t Zoom %s' % traci.gui.getZoom( "View #0"))
-    print('\t Schema %s' % traci.gui.getSchema( "View #0"))
-    print('\t LaneID %s' % traci.vehicle.getLaneID( targetID))
-    TLI=traci.vehicle.getLaneID( targetID)
-    print('\t Position '+str( traci.vehicle.getPosition( targetID)))
-    print('\t LanePosition '+str(traci.vehicle.getLanePosition( targetID )))
+    print_target_info(targetID)
+    TLI=traci.vehicle.getLaneID(targetID)
     TLP=traci.vehicle.getLanePosition( targetID )
 
     
@@ -105,15 +156,11 @@ while(True):
 
   if ambulanceID in Vlist: 
     print('{BOL}{RED}ambulance{END}:'.format(**FORM))
-    print('\t speed: %.3f' % traci.vehicle.getSpeed(ambulanceID))
-    #print('\t Neighbors %s' % dir(traci.vehicle.getNeighbors(ambulanceID)))
-    print('\t LaneID %s' % traci.vehicle.getLaneID( ambulanceID)) 
+    print_ambulance_info(ambulanceID)
     ALI=traci.vehicle.getLaneID( ambulanceID)
-    print('\t Position '+str( traci.vehicle.getPosition( ambulanceID)) )
-    print('\t LanePosition '+str(traci.vehicle.getLanePosition( ambulanceID )))
     ALP=traci.vehicle.getLanePosition( ambulanceID)
     tractarget=ambulanceID
-    if checkambulancearrived():
+    if check_ambulance_arrival_time():
       print('{BOL}{GRE}ambulance is arrived{END}:'.format(**FORM))
       print('\t travel time is : '+str(traci.simulation.getCurrentTime() - AST) )
       while(1):
@@ -126,3 +173,7 @@ while(True):
 
   step=step+1
 traci.close()
+
+    
+
+
