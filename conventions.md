@@ -9,3 +9,4 @@
 - feat: a commit of the type feat introduces a new feature to the project
 - fix : a commit of the type fix patches a bug in the project
 - doc :  a commit of the type doc adds documentation to the project
+- refactoring: a commit for restructuring the code
