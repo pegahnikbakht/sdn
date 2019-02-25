@@ -48,7 +48,7 @@ def startambulance():
     traci.vehicle.add("ambulance", "trip", typeID="type1")
     abulanestate=True
 
-def checkambulancearrived():
+def check_ambulance_arrival_time():
   global ALP,TLP,TLI,ALI
   TLPI,ALPI=int(TLP),int(ALP)
   if TLI==ALI and abs(TLPI-ALPI)<30 :
@@ -113,7 +113,7 @@ while(True):
     print('\t LanePosition '+str(traci.vehicle.getLanePosition( ambulanceID )))
     ALP=traci.vehicle.getLanePosition( ambulanceID)
     tractarget=ambulanceID
-    if checkambulancearrived():
+    if check_ambulance_arrival_time():
       print('{BOL}{GRE}ambulance is arrived{END}:'.format(**FORM))
       print('\t travel time is : '+str(traci.simulation.getCurrentTime() - AST) )
       while(1):
@@ -126,3 +126,7 @@ while(True):
 
   step=step+1
 traci.close()
+
+    
+
+
