@@ -57,6 +57,18 @@ def check_ambulance_arrival_time():
     return False
 
 
+def print_target_info(targetID):
+    print("target :")
+    print('\t speed: %.3f' % traci.vehicle.getSpeed(targetID))
+    print('\t waiting %.3f: ' % traci.vehicle.getWaitingTime(targetID))
+    print('\t isStopped %s' % traci.vehicle.isStopped(targetID))
+    print('\t StopState %s' % traci.vehicle.getStopState(targetID))
+    print('\t Zoom %s' % traci.gui.getZoom( "View #0"))
+    print('\t Schema %s' % traci.gui.getSchema( "View #0"))
+    print('\t LaneID %s' % traci.vehicle.getLaneID( targetID))
+    print('\t Position '+str( traci.vehicle.getPosition( targetID)))
+    print('\t LanePosition '+str(traci.vehicle.getLanePosition( targetID )))
+
 traci.start(["sumo-gui", "-c", "/usr/local/lib/python2.7/dist-packages/mininet_wifi-2.3-py2.7.egg/mn_wifi/sumo/data/map.sumocfg"])
 #traci.vehicle.subscribe(vehID, (tc.VAR_ROAD_ID, tc.VAR_LANEPOSITION))
 #print(traci.vehicle.getSubscriptionResults(vehID))
@@ -80,20 +92,10 @@ while(True):
   print(traci.simulation.getCurrentTime())
 
 
-
   if targetID in Vlist:  
     traci.vehicle.setColor(targetID,(255,0,0))
-    print("target :")
-    print('\t speed: %.3f' % traci.vehicle.getSpeed(targetID))
-    print('\t waiting %.3f: ' % traci.vehicle.getWaitingTime(targetID))
-    print('\t isStopped %s' % traci.vehicle.isStopped(targetID))
-    print('\t StopState %s' % traci.vehicle.getStopState(targetID))
-    print('\t Zoom %s' % traci.gui.getZoom( "View #0"))
-    print('\t Schema %s' % traci.gui.getSchema( "View #0"))
-    print('\t LaneID %s' % traci.vehicle.getLaneID( targetID))
-    TLI=traci.vehicle.getLaneID( targetID)
-    print('\t Position '+str( traci.vehicle.getPosition( targetID)))
-    print('\t LanePosition '+str(traci.vehicle.getLanePosition( targetID )))
+    print_target_info(targetID)
+    TLI=traci.vehicle.getLaneID(targetID)
     TLP=traci.vehicle.getLanePosition( targetID )
 
     
