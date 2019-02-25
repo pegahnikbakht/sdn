@@ -37,16 +37,38 @@ FORM={
   'BOL' : '\033[1m',
 }
 
-def add_emergency_vehicle(typeI):
-    if typeI == "ambulance":
-       traci.route.add("trip", ["5672450#2", "156994961#1"])
-       traci.vehicle.add("ambulance", "trip", typeID="ambulance")
-    elif typeI == "firetruck": 
-       traci.route.add("trip", ["5672450#2", "156994961#1"])
-       traci.vehicle.add("firetruck", "trip", typeID="firetruck")
-    elif typeI == "police":
-       traci.route.add("trip", ["5672450#2", "156994961#1"])
-       traci.vehicle.add("police", "trip", typeID="police")
+#def add_emergency_vehicle(typeI):
+#    if typeI == "ambulance":
+#       traci.route.add("trip", ["5672450#2", "156994961#1"])
+#       traci.vehicle.add("ambulance", "trip", typeID="ambulance")
+#    elif typeI == "firetruck": 
+#       traci.route.add("trip", ["5672450#2", "156994961#1"])
+#       traci.vehicle.add("firetruck", "trip", typeID="firetruck")
+#    elif typeI == "police":
+#       traci.route.add("trip", ["5672450#2", "156994961#1"])
+#       traci.vehicle.add("police", "trip", typeID="police")
+
+
+class ambulance():
+    def set_vehicle(self):
+        traci.route.add("trip", ["5672450#2", "156994961#1"])
+        traci.vehicle.add("ambulance", "trip", typeID="ambulance")
+       
+class firetruck():
+    def set_vehicle(self):
+        traci.route.add("trip", ["5672450#2", "156994961#1"])
+        traci.vehicle.add("firetruck", "trip", typeID="firetruck")
+
+class police():
+    def set_vehicle():
+        traci.route.add("trip", ["5672450#2", "156994961#1"])
+        traci.vehicle.add("police", "trip", typeID="police")
+
+def emergency(obj):
+    
+      obj.set_vehicle()
+
+
 
 
 ###start ambulance
@@ -58,7 +80,10 @@ def startambulance():
     AST=traci.simulation.getCurrentTime()
     #traci.route.add("trip", ["5672450#2", "156994961#1"])
     #traci.vehicle.add("ambulance", "trip", typeID="type1")
-    add_emergency_vehicle("ambulance")
+    #add_emergency_vehicle("ambulance")
+    emergency(ambulance())
+    
+    
     abulanestate=True
 
 def check_ambulance_arrival_time():
