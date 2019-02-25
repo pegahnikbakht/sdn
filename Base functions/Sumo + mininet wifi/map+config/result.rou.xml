@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on Fri Feb 22 22:57:51 2019 by SUMO duarouter Version 0.32.0
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
+
+    <input>
+        <net-file value="new-york.net.xml"/>
+        <route-files value="trips.xml"/>
+    </input>
+
+    <output>
+        <output-file value="result.rou.xml"/>
+        <alternatives-output value="result.rou.alt.xml"/>
+    </output>
+
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vehicle id="1625993_25" depart="25.00">
+        <route edges="5672450#2 420598349 110489637 34080062#0 196117090#6 156994961#1"/>
+    </vehicle>
+    <vehicle id="1542480_35" depart="35.00">
+        <route edges="194923795#1 5670836#5 481403099#1 420598356 465098271 420598335 420598349 465098285 420598333 156994969 465098290 420598339 420598407"/>
+    </vehicle>
+</routes>
