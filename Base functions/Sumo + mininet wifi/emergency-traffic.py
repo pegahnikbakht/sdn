@@ -37,6 +37,18 @@ FORM={
   'BOL' : '\033[1m',
 }
 
+def add_emergency_vehicle(typeI):
+    if typeI == "ambulance":
+       traci.route.add("trip", ["5672450#2", "156994961#1"])
+       traci.vehicle.add("ambulance", "trip", typeID="ambulance")
+    elif typeI == "firetruck": 
+       traci.route.add("trip", ["5672450#2", "156994961#1"])
+       traci.vehicle.add("firetruck", "trip", typeID="firetruck")
+    elif typeI == "police":
+       traci.route.add("trip", ["5672450#2", "156994961#1"])
+       traci.vehicle.add("police", "trip", typeID="police")
+
+
 ###start ambulance
 def startambulance():
   global abulanestate
@@ -44,8 +56,9 @@ def startambulance():
     return
   else:
     AST=traci.simulation.getCurrentTime()
-    traci.route.add("trip", ["5672450#2", "156994961#1"])
-    traci.vehicle.add("ambulance", "trip", typeID="type1")
+    #traci.route.add("trip", ["5672450#2", "156994961#1"])
+    #traci.vehicle.add("ambulance", "trip", typeID="type1")
+    add_emergency_vehicle("ambulance")
     abulanestate=True
 
 def check_ambulance_arrival_time():
@@ -86,6 +99,7 @@ traci.start(["sumo-gui", "-c", "/usr/local/lib/python2.7/dist-packages/mininet_w
 step=0
 traci.gui.setSchema( "View #0","real world")
 traci.gui.setZoom("View #0", 4000)
+
 while(True):
   #print("step", step)
   traci.simulationStep()
