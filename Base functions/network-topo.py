@@ -24,7 +24,7 @@ net.addLink(h4, s2)
 net.addLink(s1, s2)
 
 
-def run():
+def network_start():
     c = RemoteController('c', '130.235.202.50', 6653)
     net.addController(c)
     net.build()
@@ -36,4 +36,4 @@ def run():
 
 if __name__ == '__main__':
     setLogLevel('info')
-    run()
+    network_start()
