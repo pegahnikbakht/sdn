@@ -69,6 +69,16 @@ def print_target_info(targetID):
     print('\t Position '+str( traci.vehicle.getPosition( targetID)))
     print('\t LanePosition '+str(traci.vehicle.getLanePosition( targetID )))
 
+
+def print_ambulance_info(ambulanceID):
+    print('\t speed: %.3f' % traci.vehicle.getSpeed(ambulanceID))
+    #print('\t Neighbors %s' % dir(traci.vehicle.getNeighbors(ambulanceID)))
+    print('\t LaneID %s' % traci.vehicle.getLaneID( ambulanceID)) 
+    print('\t Position '+str( traci.vehicle.getPosition( ambulanceID)) )
+    print('\t LanePosition '+str(traci.vehicle.getLanePosition( ambulanceID )))   
+
+
+
 traci.start(["sumo-gui", "-c", "/usr/local/lib/python2.7/dist-packages/mininet_wifi-2.3-py2.7.egg/mn_wifi/sumo/data/map.sumocfg"])
 #traci.vehicle.subscribe(vehID, (tc.VAR_ROAD_ID, tc.VAR_LANEPOSITION))
 #print(traci.vehicle.getSubscriptionResults(vehID))
@@ -107,12 +117,8 @@ while(True):
 
   if ambulanceID in Vlist: 
     print('{BOL}{RED}ambulance{END}:'.format(**FORM))
-    print('\t speed: %.3f' % traci.vehicle.getSpeed(ambulanceID))
-    #print('\t Neighbors %s' % dir(traci.vehicle.getNeighbors(ambulanceID)))
-    print('\t LaneID %s' % traci.vehicle.getLaneID( ambulanceID)) 
+    print_ambulance_info(ambulanceID)
     ALI=traci.vehicle.getLaneID( ambulanceID)
-    print('\t Position '+str( traci.vehicle.getPosition( ambulanceID)) )
-    print('\t LanePosition '+str(traci.vehicle.getLanePosition( ambulanceID )))
     ALP=traci.vehicle.getLanePosition( ambulanceID)
     tractarget=ambulanceID
     if check_ambulance_arrival_time():
