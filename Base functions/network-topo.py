@@ -15,8 +15,8 @@ def topology():
     h4 = net.addHost('h4')
 
     #Add switches
-    s1 = net.addSwitch('s1', protocols='OpenFlow13')
-    s2 = net.addSwitch('s2', protocols='OpenFlow13')
+    s1 = net.addSwitch('s1')
+    s2 = net.addSwitch('s2')
 
     #Add links 
     net.addLink(h1, s1)
@@ -27,8 +27,12 @@ def topology():
 
 
 def network_start():
-    c = RemoteController('c', '130.235.202.50', 6653)
-    net.addController(c)
+    #Remote controller
+    #c1 = RemoteController('c', '192.168.1.9', 6633)
+    #net.addController(c1)
+
+    #Local controller
+    c1 = net.addController('c1')
     net.build()
 
     net.start()

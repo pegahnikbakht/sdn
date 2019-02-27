@@ -21,6 +21,6 @@ There are a number of base functions availbale for the smart city such as:
 
 ## Execution 
 
-You need to install latest version of mininet and sumo in order to run existing files. Existing map and config files need to be replaced with default sumo config files. 
+You need to install latest version of mininet-wifi and sumo in order to run existing files. Existing map and config files need to be replaced with default sumo config files. 
 All files need to be run under root permission. 
 
