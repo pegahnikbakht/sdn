@@ -1,0 +1,6 @@
+# Test Cases:
+- A number of tests had been written for each py file. 
+- Functions such as network topology which does not have any input or output: test case checks the corresponding function finish without any error after a run. 
+- Functions with input and outputs: test case checks the generated ouput with a specific input is equal to expected output. 
+
+
