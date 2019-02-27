@@ -17,7 +17,7 @@ def topology():
 
     info("*** Creating nodes\n")
     cars = []
-    for id in range(10, 20):
+    for id in range(0, 9):
         cars.append(net.addCar('car%s' % (id+1), wlans=2))
 
     e1 = net.addAccessPoint('e1', ssid='vanet-ssid',
@@ -33,8 +33,12 @@ def topology():
     e6 = net.addAccessPoint('e6', ssid='vanet-ssid', 
                             mode='g', channel='11', position='2351.68,3083.40,0')
     
-    c1 = RemoteController('c', '130.235.202.50', 6633)
-    net.addController(c1)
+    #Remote controller
+    #c1 = RemoteController('c', '192.168.1.9', 6633)
+    #net.addController(c1)
+
+    #Local controller
+    c1 = net.addController('c1')
 
     info("*** Setting bgscan\n")
     net.setBgscan(signal=-45, s_inverval=5, l_interval=10)
